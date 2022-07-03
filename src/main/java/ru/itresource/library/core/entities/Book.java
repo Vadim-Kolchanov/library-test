@@ -13,9 +13,6 @@ import java.util.Objects;
 @Table(schema = "library", name = "book")
 public class Book extends AbstractEntity {
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "release_date")
     private Date releaseDate;
 
@@ -32,7 +29,7 @@ public class Book extends AbstractEntity {
 
     public void validateBook() {
         if (Objects.isNull(catalog) || this.catalog.isZeroId()) {
-            throw new IllegalArgumentException(String.format("Для книги '%s' не указан каталог", this.name));
+            throw new IllegalArgumentException(String.format("Для книги '%s' не указан каталог", this.getName()));
         }
     }
 

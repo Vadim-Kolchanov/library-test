@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS library.catalog
 (
     id bigserial NOT NULL PRIMARY KEY,
-    path text NOT NULL
+    name text NOT NULL
 );
 
 CREATE INDEX IF NOT EXISTS catalog_id_index
@@ -13,5 +13,5 @@ ALTER TABLE IF EXISTS library.catalog
 COMMENT ON TABLE library.catalog
     IS 'Каталоги в библиотеке';
 
-INSERT INTO library.catalog VALUES (1, '/public') ON CONFLICT DO NOTHING;
-INSERT INTO library.catalog VALUES (2, '/private') ON CONFLICT DO NOTHING;
+INSERT INTO library.catalog VALUES (1, 'Публичный') ON CONFLICT DO NOTHING;
+INSERT INTO library.catalog VALUES (2, 'Закрытый') ON CONFLICT DO NOTHING;
