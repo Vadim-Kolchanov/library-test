@@ -2,147 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.1</version>
-        <relativePath/>
-    </parent>
+    <packaging>pom</packaging>
 
     <groupId>ru.it-resource</groupId>
     <artifactId>it-resource</artifactId>
     <version>1.0.0</version>
-    <packaging>war</packaging>
 
     <name>it-resource</name>
     <description>Выполнение тестового задания</description>
 
-    <properties>
-        <java.version>11</java.version>
-    </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>1.6.6</version>
-        </dependency>
-
-        <!-- Корректно работает только с этой версией (2.9.2) и ниже -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.9</version>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>8.5.13</version>
-
-                <configuration>
-                    <driver>org.postgresql.Driver</driver>
-                    <url>${database.url}</url>
-                    <user>${database.user}</user>
-                    <password>${database.password}</password>
-
-                    <schemas>
-                        <schema>${database.schema}</schema>
-                    </schemas>
-
-                    <locations>
-                        <location>filesystem:src/data-etl/1_tables</location>
-                    </locations>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <profiles>
-    <profile>
-        <id>dev</id>
-        <activation>
-            <activeByDefault>true</activeByDefault>
-        </activation>
-        <properties>
-            <maven.test.skip>true</maven.test.skip>
-            
-            <spring.profiles.active>dev</spring.profiles.active>
-
-            <!-- Подключение к базе данных -->
-            <database.url>jdbc:postgresql://localhost:5432/test-task</database.url>
-            <database.user>postgres</database.user>
-            <database.password>admin</database.password>
-            <database.schema>library</database.schema>
-        </properties>
-    </profile>
-    </profiles>
-
+    <modules>
+        <module>backend</module>
+    </modules>
 </project>
