@@ -48,4 +48,10 @@ public class BookResource {
     public void forceDeleteBookById(@PathVariable Long id) {
         this.bookService.forceDeleteBookById(id);
     }
+
+    @GetMapping("/change-catalog")
+    @ApiOperation(value = "Перемещает книгу в указанный каталог")
+    public void changeCatalogByBookId(@RequestParam Long bookId, @RequestParam Long catalogId) {
+        this.bookService.changeCatalogByBookId(bookId, catalogId);
+    }
 }
