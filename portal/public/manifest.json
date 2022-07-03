@@ -1,0 +1,8 @@
+{
+  "short_name": "Library",
+  "name": "Library Test Task",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
