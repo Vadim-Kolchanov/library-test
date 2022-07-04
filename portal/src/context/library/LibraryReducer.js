@@ -1,5 +1,9 @@
 import ActionType from "../action-type";
 
+const updateItemInArray = (items, payload) => items.map(it => it.id === payload.id ? payload : it);
+
+const addNewBook = (books, book) => [...(books.filter(it => it.id !== 0)), book]
+
 const handlers = {
     [ActionType.SET_LOADING]: state => ({...state, loading: true}),
 
@@ -7,7 +11,9 @@ const handlers = {
     [ActionType.GET_BOOKS_BY_CATALOG_ID]: (state, {payload}) => ({...state, books: payload, loading: false}),
     [ActionType.GET_AUTHORS]: (state, {payload}) => ({...state, authors: payload}),
 
-    [ActionType.SAVE_BOOK]: (state, {payload}) => ({...state, books: state.books.map(it => it.id === payload.id ? payload : it)}),
+    [ActionType.SAVE_BOOK]: (state, {payload, isNewBook}) => ({...state, books: isNewBook ? addNewBook(state.books, payload) : updateItemInArray(state.books, payload)}),
+    [ActionType.ADD_BOOK]: (state, {payload}) => ({...state, books: [...state.books, payload]}),
+    [ActionType.DELETE_BOOK]: (state, {payload}) => ({...state, books: state.books.filter(it => it.id !== payload.id)}),
 
     DEFAULT: state => state
 };

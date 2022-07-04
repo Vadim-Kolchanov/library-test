@@ -4,7 +4,12 @@ import {Table} from "./Table/Table";
 import {Waiter} from "../UI/Waiter";
 
 export const BooksTable = ({catalogId}) => {
-    const {loading, books, getBooks, catalogs, deleteBook, changeCatalog, authors, getAuthors, saveBook} = useContext(LibraryContext);
+    const {
+        loading,
+        authors, getAuthors,
+        books, getBooks, deleteBook, saveBook, addNewBook, undoBookCreation,
+        catalogs, changeCatalog
+    } = useContext(LibraryContext);
 
     useEffect(() => {
         getBooks(catalogId);
@@ -19,7 +24,8 @@ export const BooksTable = ({catalogId}) => {
     }
 
     const actionsConfig = {
-        authors, changeCatalog, saveBook, deleteBook,
+        authors, changeCatalog,
+        saveBook, deleteBook, addNewBook, undoBookCreation,
 
         catalogs: catalogs.filter(it => it.id !== catalog.id),
     };
@@ -28,7 +34,7 @@ export const BooksTable = ({catalogId}) => {
         <React.Fragment>
             {loading
                 ? <Waiter/>
-                : <Table catalogName={catalog.name} books={books} actionsConfig={actionsConfig}/>}
+                : <Table catalog={catalog} books={books} actionsConfig={actionsConfig}/>}
         </React.Fragment>
     );
 };

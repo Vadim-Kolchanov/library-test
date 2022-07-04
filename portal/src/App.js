@@ -12,7 +12,7 @@ function App() {
           <div className="container pt-4">
               <Routes>
                   <Route path={LinksType.CATALOG.to + '/:id'} element={<Catalog/>}/>
-                  <Route path={LinksType.ADDING_BOOK.to} element={(<div>Book</div>)}/>
+                  <Route path={LinksType.INFO.to} element={(<div>Info</div>)}/>
 
                   <Route path="*" element={<Catalog/>}/>
               </Routes>

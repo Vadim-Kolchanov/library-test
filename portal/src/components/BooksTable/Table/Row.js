@@ -4,11 +4,12 @@ import {Actions} from "./Actions";
 import {DropdownAuthor} from "../Dropdown/DropdownAuthor";
 import {Button} from "react-bootstrap";
 
-const saveBookButton = (setEdit, saveBook, book, fields, setFieldsBook) => (
+const saveBookButton = (setEdit, saveBook, book, fields, setFieldsBook, addBookActions) => (
     <div className="d-flex align-items-center">
         <Button className="btn btn-success"
                 style={{marginRight: '10px'}}
                 onClick={() => {
+                    if (!!book.isNewBook) addBookActions.onSaveCreatedBook();
                     setEdit(false);
                     saveBook({...book, ...fields});
                 }}
@@ -16,6 +17,11 @@ const saveBookButton = (setEdit, saveBook, book, fields, setFieldsBook) => (
 
         <Button className="btn btn-danger"
                 onClick={() => {
+                    if (!!book.isNewBook) {
+                        addBookActions.onUndoBookCreation(book);
+                        return;
+                    }
+
                     setEdit(false);
                     setFieldsBook(initialStateFields(book));
                 }}
@@ -29,8 +35,8 @@ const initialStateFields = book => ({
     author: book.author
 });
 
-export const Row = ({book, number, actionsConfig}) => {
-    const [isEdit, setEdit] = useState(false);
+export const Row = ({book, number, actionsConfig, addBookActions}) => {
+    const [isEdit, setEdit] = useState(!!book.isNewBook);
     const [fields, setFields] = useState(initialStateFields(book));
 
     const updateFields = fields => setFields(prevState => ({...prevState, ...fields}));
@@ -42,7 +48,7 @@ export const Row = ({book, number, actionsConfig}) => {
                 <td><input type="text" value={fields.name} onChange={event => updateFields({name: event.target.value})}/></td>
                 <td><DropdownAuthor authors={actionsConfig.authors} author={fields.author} updateFields={updateFields}/></td>
                 <td><input type="date" value={fields.releaseDate} onChange={event => updateFields({releaseDate: event.target.value})}/></td>
-                <td style={{width: 0}}>{saveBookButton(setEdit, actionsConfig.saveBook, book, fields, setFields)}</td>
+                <td style={{width: 0}}>{saveBookButton(setEdit, actionsConfig.saveBook, book, fields, setFields, addBookActions)}</td>
             </tr>
         );
     }

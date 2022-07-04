@@ -44,36 +44,43 @@ export const LibraryState = ({children}) => {
     };
 
     /**
-     * Удалить книгу по её идентификатору
+     * Удалить книгу
      */
-    const deleteBook = async (bookId, catalogId) => {
-        await axios.get(LibraryApi.BOOK.DELETE(bookId));
+    const deleteBook = async book => {
+        await axios.get(LibraryApi.BOOK.DELETE(book.id));
 
-        await getBooks(catalogId);
+        dispatch({
+            type: ActionType.DELETE_BOOK,
+            payload: book
+        });
     };
 
     /**
      * Перемещает книгу в другую директорию
      */
-    const changeCatalog = async (bookId, fromCatalogId, toCatalogId) => {
-        if (fromCatalogId.toString() === toCatalogId.toString()) {
+    const changeCatalog = async (book, toCatalogId) => {
+        if (book.catalog.id.toString() === toCatalogId.toString()) {
             return;
         }
 
-        await axios.get(LibraryApi.BOOK.CHANGE_CATALOG(bookId, toCatalogId));
+        await axios.get(LibraryApi.BOOK.CHANGE_CATALOG(book.id, toCatalogId));
 
-        await getBooks(fromCatalogId);
+        dispatch({
+            type: ActionType.DELETE_BOOK,
+            payload: book
+        });
     }
 
     /**
      * Сохраняет книгу
      */
     const saveBook = async book => {
-        await axios.post(LibraryApi.BOOK.SAVE, book);
+        const response = await axios.post(LibraryApi.BOOK.SAVE, book);
 
         dispatch({
             type: ActionType.SAVE_BOOK,
-            payload: book
+            payload: response.data,
+            isNewBook: !!book.isNewBook
         });
     }
 
@@ -94,11 +101,21 @@ export const LibraryState = ({children}) => {
      */
     const setLoading = () => dispatch({type: ActionType.SET_LOADING});
 
+    /**
+     * Добавить новую книгу
+     */
+    const addNewBook = book => dispatch({type: ActionType.ADD_BOOK, payload: book});
+
+    /**
+     * Отменить создание новой книги
+     */
+    const undoBookCreation = book => dispatch({type: ActionType.DELETE_BOOK, payload: book});
+
     const {loading, catalogs, books, authors} = state;
 
     return (
         <LibraryContext.Provider value={{
-            setLoading, getCatalogs, getBooks, deleteBook, changeCatalog, getAuthors, saveBook,
+            setLoading, getCatalogs, getBooks, deleteBook, changeCatalog, getAuthors, saveBook, addNewBook, undoBookCreation,
             loading, catalogs, books, authors
         }}>
             {children}

@@ -7,12 +7,12 @@ export const Actions = ({book, setEdit, config}) => {
            className="bi bi-pencil-fill" role="button"
            title="Редактировать"/>
 
-        <i onClick={() => config.deleteBook(book.id, book.catalog.id)}
+        <i onClick={() => config.deleteBook(book)}
            className="bi bi-trash" role="button"
            title="Удалить"/>
 
         <DropdownCatalog catalogs={config.catalogs}
-                         onSelect={eventKey => config.changeCatalog(book.id, book.catalog.id, eventKey)}
+                         onSelect={eventKey => config.changeCatalog(book, eventKey)}
         />
     </>);
 };
