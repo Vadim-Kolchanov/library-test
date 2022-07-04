@@ -5,8 +5,9 @@ import {DropdownAuthor} from "../Dropdown/DropdownAuthor";
 import {Button} from "react-bootstrap";
 
 const saveBookButton = (setEdit, saveBook, book, name, author, releaseDate) => (
-    <>
+    <div className="d-flex align-items-center">
         <Button className="btn btn-success"
+                style={{marginRight: '10px'}}
                 onClick={() => {
                     setEdit(false);
                     saveBook({...book, name, author, releaseDate});
@@ -16,7 +17,7 @@ const saveBookButton = (setEdit, saveBook, book, name, author, releaseDate) => (
         <Button className="btn btn-danger"
                 onClick={() => setEdit(false)}
         >Отменить</Button>
-    </>
+    </div>
 );
 
 export const Row = ({book, number, actionsConfig}) => {
@@ -32,7 +33,7 @@ export const Row = ({book, number, actionsConfig}) => {
                 <td><input type="text" value={name} onChange={event => setName(event.target.value)}/></td>
                 <td><DropdownAuthor authors={actionsConfig.authors} author={author} setAuthor={setAuthor}/></td>
                 <td><input type="date" value={date} onChange={event => setDate(event.target.value)}/></td>
-                <td className="d-flex align-items-center justify-content-around">{saveBookButton(setEdit, actionsConfig.saveBook, book, name, author, date)}</td>
+                <td style={{width: 0}}>{saveBookButton(setEdit, actionsConfig.saveBook, book, name, author, date)}</td>
             </tr>
         );
     }
