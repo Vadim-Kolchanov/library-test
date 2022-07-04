@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {DropdownCustom} from "../../UI/DropdownCustom";
 
-const CustomToggle = (authors, author, setAuthor) => React.forwardRef(({children, onClick}, ref) => {
+const CustomToggle = (authors, author, updateFields) => React.forwardRef(({children, onClick}, ref) => {
     const [value, setValue] = useState(author.name);
 
     return (
@@ -11,7 +11,7 @@ const CustomToggle = (authors, author, setAuthor) => React.forwardRef(({children
                    onChange={event => setValue(event.target.value)}
                    onBlur={() => {
                        const author = findAuthorByName(value, authors)
-                       setAuthor(author ? author : {name: value})
+                       updateFields(author ? {author} : {author: {name: value}})
                    }}
                    ref={ref}
                    onClick={e => {
@@ -27,9 +27,9 @@ const CustomToggle = (authors, author, setAuthor) => React.forwardRef(({children
 const findAuthorById = (id, authors) => authors.find(author => author.id.toString() === id.toString());
 const findAuthorByName = (name, authors) => authors.find(author => author.name === name);
 
-export const DropdownAuthor = ({authors, author, setAuthor}) => (
-    <DropdownCustom CustomComponent={CustomToggle(authors, author, setAuthor)}
+export const DropdownAuthor = ({authors, author, updateFields}) => (
+    <DropdownCustom CustomComponent={CustomToggle(authors, author, updateFields)}
                     items={authors}
-                    onSelect={eventKey => setAuthor(findAuthorById(eventKey, authors))}
+                    onSelect={eventKey => updateFields({author: findAuthorById(eventKey, authors)})}
     />
 );

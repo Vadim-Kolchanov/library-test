@@ -4,36 +4,45 @@ import {Actions} from "./Actions";
 import {DropdownAuthor} from "../Dropdown/DropdownAuthor";
 import {Button} from "react-bootstrap";
 
-const saveBookButton = (setEdit, saveBook, book, name, author, releaseDate) => (
+const saveBookButton = (setEdit, saveBook, book, fields, setFieldsBook) => (
     <div className="d-flex align-items-center">
         <Button className="btn btn-success"
                 style={{marginRight: '10px'}}
                 onClick={() => {
                     setEdit(false);
-                    saveBook({...book, name, author, releaseDate});
+                    saveBook({...book, ...fields});
                 }}
         >Сохранить</Button>
 
         <Button className="btn btn-danger"
-                onClick={() => setEdit(false)}
+                onClick={() => {
+                    setEdit(false);
+                    setFieldsBook(initialStateFields(book));
+                }}
         >Отменить</Button>
     </div>
 );
 
+const initialStateFields = book => ({
+    name: book.name,
+    releaseDate: DateUtil.inputDate(book.releaseDate),
+    author: book.author
+});
+
 export const Row = ({book, number, actionsConfig}) => {
     const [isEdit, setEdit] = useState(false);
-    const [name, setName] = useState(book.name);
-    const [date, setDate] = useState(DateUtil.inputDate(book.releaseDate));
-    const [author, setAuthor] = useState(book.author);
+    const [fields, setFields] = useState(initialStateFields(book));
+
+    const updateFields = fields => setFields(prevState => ({...prevState, ...fields}));
 
     if (isEdit) {
         return (
             <tr>
                 <th scope="row">{number}</th>
-                <td><input type="text" value={name} onChange={event => setName(event.target.value)}/></td>
-                <td><DropdownAuthor authors={actionsConfig.authors} author={author} setAuthor={setAuthor}/></td>
-                <td><input type="date" value={date} onChange={event => setDate(event.target.value)}/></td>
-                <td style={{width: 0}}>{saveBookButton(setEdit, actionsConfig.saveBook, book, name, author, date)}</td>
+                <td><input type="text" value={fields.name} onChange={event => updateFields({name: event.target.value})}/></td>
+                <td><DropdownAuthor authors={actionsConfig.authors} author={fields.author} updateFields={updateFields}/></td>
+                <td><input type="date" value={fields.releaseDate} onChange={event => updateFields({releaseDate: event.target.value})}/></td>
+                <td style={{width: 0}}>{saveBookButton(setEdit, actionsConfig.saveBook, book, fields, setFields)}</td>
             </tr>
         );
     }
