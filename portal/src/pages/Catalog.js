@@ -1,8 +1,9 @@
 import React, {useContext, useEffect} from "react";
 import {Link, useParams} from "react-router-dom";
-import {BooksTable} from "../components/Catalog/BooksTable";
-import {CatalogContext} from "../context/catalog/CatalogContext";
+import {BooksTable} from "../components/BooksTable/BooksTable";
+import {LibraryContext} from "../context/library/LibraryContext";
 import LinksType from "../enums/links-type";
+import {Waiter} from "../components/UI/Waiter";
 
 const urlCatalog = id => `${LinksType.CATALOG.to}/${id}`;
 
@@ -21,7 +22,7 @@ function renderCatalogs(catalogs) {
 }
 
 export const Catalog = () => {
-    const {loading, catalogs, getCatalogs} = useContext(CatalogContext);
+    const {loading, catalogs, getCatalogs} = useContext(LibraryContext);
     const {id} = useParams();
 
     useEffect(() => {
@@ -38,7 +39,7 @@ export const Catalog = () => {
             <h1 className="text-center">Каталоги</h1>
 
             {loading
-                ? <p className="text-center">Загрузка...</p>
+                ? <Waiter/>
                 : renderCatalogs(catalogs)}
         </React.Fragment>
     );

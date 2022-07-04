@@ -1,18 +1,19 @@
-import {CatalogContext} from "./CatalogContext";
+import {LibraryContext} from "./LibraryContext";
 import React, {useReducer} from "react";
 import ActionType from "../action-type";
 import axios from "axios";
 import LibraryApi from "../../enums/library-api";
-import {CatalogReducer} from "./CatalogReducer";
+import {LibraryReducer} from "./LibraryReducer";
 
-export const CatalogState = ({children}) => {
+export const LibraryState = ({children}) => {
     const initialState = {
         catalogs: [],
         books: [],
+        authors: [],
         loading: false
     };
 
-    const [state, dispatch] = useReducer(CatalogReducer, initialState);
+    const [state, dispatch] = useReducer(LibraryReducer, initialState);
 
     /**
      * Получить список каталогов
@@ -65,18 +66,42 @@ export const CatalogState = ({children}) => {
     }
 
     /**
+     * Сохраняет книгу
+     */
+    const saveBook = async book => {
+        await axios.post(LibraryApi.BOOK.SAVE, book);
+
+        dispatch({
+            type: ActionType.SAVE_BOOK,
+            payload: book
+        });
+    }
+
+    /**
+     * Получить список авторов
+     */
+    const getAuthors = async () => {
+        const response = await axios.get(LibraryApi.AUTHOR.GET_ALL);
+
+        dispatch({
+            type: ActionType.GET_AUTHORS,
+            payload: response.data
+        });
+    };
+
+    /**
      * Уведомить, что идёт загрузка
      */
     const setLoading = () => dispatch({type: ActionType.SET_LOADING});
 
-    const {loading, catalogs, books} = state;
+    const {loading, catalogs, books, authors} = state;
 
     return (
-        <CatalogContext.Provider value={{
-            setLoading, getCatalogs, getBooks, deleteBook, changeCatalog,
-            loading, catalogs, books
+        <LibraryContext.Provider value={{
+            setLoading, getCatalogs, getBooks, deleteBook, changeCatalog, getAuthors, saveBook,
+            loading, catalogs, books, authors
         }}>
             {children}
-        </CatalogContext.Provider>
+        </LibraryContext.Provider>
     );
 };

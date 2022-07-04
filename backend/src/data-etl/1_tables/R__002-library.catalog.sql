@@ -13,5 +13,5 @@ ALTER TABLE IF EXISTS library.catalog
 COMMENT ON TABLE library.catalog
     IS 'Каталоги в библиотеке';
 
-INSERT INTO library.catalog VALUES (1, 'Публичный') ON CONFLICT DO NOTHING;
-INSERT INTO library.catalog VALUES (2, 'Закрытый') ON CONFLICT DO NOTHING;
+INSERT INTO library.catalog VALUES (DEFAULT, 'Публичный') ON CONFLICT DO NOTHING;
+INSERT INTO library.catalog VALUES (DEFAULT, 'Закрытый') ON CONFLICT DO NOTHING;

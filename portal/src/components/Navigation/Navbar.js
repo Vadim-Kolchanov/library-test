@@ -10,7 +10,7 @@ const renderLinks = () => Object.values(LinksType).map((link, index) => (
 
 export const Navbar = () => (
     <nav className="navbar navbar-dark bg-primary navbar-expand-lg">
-        <div className="navbar-brand">
+        <div className="navbar-brand ms-3">
             Библиотека
         </div>
         <ul className="navbar-nav">

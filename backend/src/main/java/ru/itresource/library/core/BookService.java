@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class BookService {
 
+    private final AuthorService authorService;
     private final BookRepository bookRepository;
 
     public Book bookById(Long id) throws BookNotFoundException {
@@ -29,6 +30,10 @@ public class BookService {
     }
 
     public Book saveBook(Book book) {
+        if (book.isNewAuthor()) {
+            book.setAuthor(this.authorService.createAuthor(book.getAuthor().getName()));
+        }
+
         return this.bookRepository.save(book);
     }
 

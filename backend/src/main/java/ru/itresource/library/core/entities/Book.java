@@ -33,6 +33,10 @@ public class Book extends AbstractEntity {
         }
     }
 
+    public boolean isNewAuthor() {
+        return this.author.isZeroId();
+    }
+
     /**
      * Метод-конструктор помогающий не забыть поля, которые надо засетить.
      * Потому что JPA не даст создать полноценный конструктор

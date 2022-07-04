@@ -21,4 +21,11 @@ public class AuthorService {
     public Author saveAuthor(Author author) {
         return this.authorRepository.save(author);
     }
+
+    public Author createAuthor(String name) {
+        Author author = new Author();
+        author.setName(name);
+
+        return this.saveAuthor(author);
+    }
 }
