@@ -24,12 +24,11 @@ const CustomToggle = (authors, author, updateFields) => React.forwardRef(({child
     );
 });
 
-const findAuthorById = (id, authors) => authors.find(author => author.id.toString() === id.toString());
 const findAuthorByName = (name, authors) => authors.find(author => author.name === name);
 
 export const DropdownAuthor = ({authors, author, updateFields}) => (
     <DropdownCustom CustomComponent={CustomToggle(authors, author, updateFields)}
                     items={authors}
-                    onSelect={eventKey => updateFields({author: findAuthorById(eventKey, authors)})}
+                    onSelect={eventKey => updateFields({author: authors.find(author => author.id.toString() === eventKey.toString())})}
     />
 );
