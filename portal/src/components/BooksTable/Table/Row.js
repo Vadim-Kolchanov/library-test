@@ -8,10 +8,10 @@ const saveBookButton = (setEdit, saveBook, book, fields, setFieldsBook, addBookA
     <div className="d-flex align-items-center">
         <Button className="btn btn-success"
                 style={{marginRight: '10px'}}
-                onClick={() => {
-                    if (!!book.isNewBook) addBookActions.onSaveCreatedBook();
+                onClick={async () => {
                     setEdit(false);
-                    saveBook({...book, ...fields});
+                    await saveBook({...book, ...fields});
+                    if (!!book.isNewBook) addBookActions.onSaveCreatedBook();
                 }}
         >Сохранить</Button>
 

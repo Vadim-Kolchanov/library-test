@@ -1,0 +1,16 @@
+.pagination-limit, .pagination-info {
+    align-self: center;
+}
+
+.pagination-limit > input {
+    cursor: pointer;
+    width: 50px;
+    text-align: center;
+    margin-left: 5px;
+    border: 1px solid #dee2e6;
+}
+
+.pagination-limit > input:focus {
+    outline-color: #4479c9;
+    opacity: 50%;
+}

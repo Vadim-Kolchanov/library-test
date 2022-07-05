@@ -55,7 +55,7 @@ public class BookServiceIntegrationTest {
 
     @Test
     void test3_allBooksByCatalogId() {
-        List<Book> books = this.bookService.allBooksByCatalogId(CatalogPath.PUBLIC.id, this.pageable());
+        List<Book> books = this.bookService.allBooksByCatalogId(CatalogPath.PUBLIC.id, this.pageable()).getContent();
 
         assertFalse(books.isEmpty());
         assertTrue(this.isAllBooksInPublicCatalog(books));

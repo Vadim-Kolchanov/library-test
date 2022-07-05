@@ -5,15 +5,20 @@ import axios from "axios";
 import LibraryApi from "../../enums/library-api";
 import {LibraryReducer} from "./LibraryReducer";
 
+export const pageableInit = {page: 0, totalPages: 1, limit: 5, totalElements: 0};
+
 export const LibraryState = ({children}) => {
     const initialState = {
         catalogs: [],
         books: [],
         authors: [],
+        pageable: pageableInit,
         loading: false
     };
 
     const [state, dispatch] = useReducer(LibraryReducer, initialState);
+
+    const {loading, catalogs, books, authors, pageable} = state;
 
     /**
      * Получить список каталогов
@@ -32,10 +37,10 @@ export const LibraryState = ({children}) => {
     /**
      * Получить список книг по идентификатору каталога
      */
-    const getBooks = async catalogId => {
+    const getBooks = async (catalogId, {page, limit}) => {
         setLoading();
 
-        const response = await axios.get(LibraryApi.BOOK.BY_CATALOG_ID(catalogId));
+        const response = await axios.get(LibraryApi.BOOK.BY_CATALOG_ID(catalogId, page, limit));
 
         dispatch({
             type: ActionType.GET_BOOKS_BY_CATALOG_ID,
@@ -69,7 +74,7 @@ export const LibraryState = ({children}) => {
             type: ActionType.DELETE_BOOK,
             payload: book
         });
-    }
+    };
 
     /**
      * Сохраняет книгу
@@ -82,7 +87,7 @@ export const LibraryState = ({children}) => {
             payload: response.data,
             isNewBook: !!book.isNewBook
         });
-    }
+    };
 
     /**
      * Получить список авторов
@@ -102,6 +107,16 @@ export const LibraryState = ({children}) => {
     const setLoading = () => dispatch({type: ActionType.SET_LOADING});
 
     /**
+     * Устанавливает номер страницы
+     */
+    const setPage = page => dispatch({type: ActionType.SET_PAGE, payload: page});
+
+    /**
+     * Устанавливает кол-во отображаемых элементов на странице
+     */
+    const setLimit = limit => dispatch({type: ActionType.SET_LIMIT, payload: limit});
+
+    /**
      * Добавить новую книгу
      */
     const addNewBook = book => dispatch({type: ActionType.ADD_BOOK, payload: book});
@@ -111,12 +126,14 @@ export const LibraryState = ({children}) => {
      */
     const undoBookCreation = book => dispatch({type: ActionType.DELETE_BOOK, payload: book});
 
-    const {loading, catalogs, books, authors} = state;
-
     return (
         <LibraryContext.Provider value={{
-            setLoading, getCatalogs, getBooks, deleteBook, changeCatalog, getAuthors, saveBook, addNewBook, undoBookCreation,
-            loading, catalogs, books, authors
+            setLoading,
+            getCatalogs, changeCatalog,
+            getBooks, deleteBook, saveBook, addNewBook, undoBookCreation,
+            setPage, setLimit,
+            getAuthors,
+            loading, catalogs, books, authors, pageable
         }}>
             {children}
         </LibraryContext.Provider>

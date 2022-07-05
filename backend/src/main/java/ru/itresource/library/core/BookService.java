@@ -1,14 +1,13 @@
 package ru.itresource.library.core;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itresource.library.core.entities.Book;
 import ru.itresource.library.core.exceptions.BookNotFoundException;
 import ru.itresource.library.core.port.BookRepository;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -23,10 +22,8 @@ public class BookService {
                 .orElseThrow(() -> new BookNotFoundException(id));
     }
 
-    public List<Book> allBooksByCatalogId(Long catalogId, Pageable pageable) {
-        return this.bookRepository
-                .findAllByCatalogIdAndIsDeletedFalse(catalogId, pageable)
-                .getContent();
+    public Page<Book> allBooksByCatalogId(Long catalogId, Pageable pageable) {
+        return this.bookRepository.findAllByCatalogIdAndIsDeletedFalse(catalogId, pageable);
     }
 
     public Book saveBook(Book book) {

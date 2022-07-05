@@ -8,14 +8,15 @@ export const BooksTable = ({catalogId}) => {
         loading,
         authors, getAuthors,
         books, getBooks, deleteBook, saveBook, addNewBook, undoBookCreation,
+        pageable, setPage, setLimit,
         catalogs, changeCatalog
     } = useContext(LibraryContext);
 
     useEffect(() => {
-        getBooks(catalogId);
+        getBooks(catalogId, pageable);
         getAuthors();
         // eslint-disable-next-line
-    }, []);
+    }, [pageable.page, pageable.limit]);
 
     const catalog = catalogs.find(it => it.id.toString() === catalogId);
 
@@ -25,7 +26,8 @@ export const BooksTable = ({catalogId}) => {
 
     const actionsConfig = {
         authors, changeCatalog,
-        saveBook, deleteBook, addNewBook, undoBookCreation,
+        getBooks, saveBook, deleteBook, addNewBook, undoBookCreation,
+        pageable, setPage, setLimit,
 
         catalogs: catalogs.filter(it => it.id !== catalog.id),
     };

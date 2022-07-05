@@ -1,27 +1,7 @@
-import {Link} from "react-router-dom";
-import LinksType from "../../../enums/links-type";
 import React, {Fragment, useState} from "react";
 import {Row} from "./Row";
-import {Button} from "react-bootstrap";
-import moment from "moment";
-import AuthorModel from "../../../models/author-model";
-import CatalogModel from "../../../models/catalog-model";
-import BookModel from "../../../models/book-model";
-
-const onAddBook = (catalog, addNewBook, setIsAdding) => {
-    setIsAdding(true);
-
-    const newBook = new BookModel(
-        0,
-        'Название книги',
-        moment(),
-        new AuthorModel(-1, 'Неизвестный автор'),
-        CatalogModel.fromObject(catalog),
-        true
-    );
-
-    addNewBook(newBook);
-};
+import {Pagination} from "../../Navigation/Pagination";
+import {Header} from "./Header";
 
 export const Table = ({catalog, books, actionsConfig}) => {
     const [isAdding, setIsAdding] = useState(false);
@@ -31,26 +11,31 @@ export const Table = ({catalog, books, actionsConfig}) => {
             actionsConfig.undoBookCreation(book);
             setIsAdding(false);
         },
-        onSaveCreatedBook: () => setIsAdding(false)
+        onSaveCreatedBook: () => {
+            if (books.length > actionsConfig.pageable.limit) {
+                actionsConfig.getBooks(catalog.id, actionsConfig.pageable);
+                return;
+            }
+            setIsAdding(false);
+        }
     };
 
-    const goBack = <Link to={LinksType.CATALOG.to}><i className="bi bi-arrow-left-circle" role="button"></i></Link>;
-    const header = <h1 className="text-center">{goBack} {catalog.name} каталог</h1>;
-
-    const addBookButton = () => (
-        <div className="d-flex justify-content-around mt-5">
-            <Button disabled={isAdding}
-                    className="btn btn-success"
-                    onClick={() => onAddBook(catalog, actionsConfig.addNewBook, setIsAdding)}
-            >Добавить книгу <i className="bi bi-plus-circle"></i></Button>
-        </div>
-    );
+    const header = <Header catalog={catalog} isAdding={isAdding} setIsAdding={setIsAdding}
+                           addNewBook={actionsConfig.addNewBook}/>;
 
     if (books.length === 0) {
+        if (actionsConfig.pageable.totalPages > 1) {
+            const currentPage = actionsConfig.pageable.page;
+            actionsConfig.getBooks(catalog.id, {
+                ...actionsConfig.pageable,
+                page: currentPage === 0 ? currentPage : actionsConfig.pageable.page - 1
+            });
+            return;
+        }
+
         return (<>
             {header}
             <p className="text-center mt-5">Данных нет</p>
-            {addBookButton()}
         </>);
     }
 
@@ -69,14 +54,13 @@ export const Table = ({catalog, books, actionsConfig}) => {
                 </thead>
                 <tbody>
                 {books.map((book, index) => <Row key={book.id}
-                                                     book={book}
-                                                     number={index + 1}
-                                                     actionsConfig={actionsConfig}
-                                                     addBookActions={addBookActions}/>)}
+                                                 book={book}
+                                                 number={index + 1}
+                                                 actionsConfig={actionsConfig}
+                                                 addBookActions={addBookActions}/>)}
                 </tbody>
             </table>
-
-            {addBookButton()}
+            <Pagination {...actionsConfig.pageable} setPage={actionsConfig.setPage} setLimit={actionsConfig.setLimit}/>
         </Fragment>
     );
 };

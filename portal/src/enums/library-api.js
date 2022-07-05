@@ -5,7 +5,7 @@ const LibraryApi = {
         GET_ALL: url('catalog')
     },
     BOOK: {
-        BY_CATALOG_ID: catalogId => url(`book/all-by-catalog-${catalogId}`),
+        BY_CATALOG_ID: (catalogId, page, limit) => url(`book/all-by-catalog-${catalogId}?page=${page}&limit=${limit}`),
         DELETE: bookId => url(`book/delete/${bookId}`),
         CHANGE_CATALOG: (bookId, catalogId) => url(`book/change-catalog?bookId=${bookId}&catalogId=${catalogId}`),
         SAVE: url('book/save')

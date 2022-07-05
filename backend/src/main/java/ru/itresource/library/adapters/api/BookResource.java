@@ -2,6 +2,7 @@ package ru.itresource.library.adapters.api;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import ru.itresource.library.core.BookService;
@@ -29,7 +30,7 @@ public class BookResource {
 
     @GetMapping("/all-by-catalog-{catalogId}")
     @ApiOperation(value = "Возвращает книги по указанному каталогу")
-    public List<Book> allBooksByCatalogId(
+    public Page<Book> allBooksByCatalogId(
             @PathVariable Long catalogId,
             @RequestParam(defaultValue = DEFAULT_PAGE) int page,
             @RequestParam(defaultValue = DEFAULT_LIMIT) int limit
