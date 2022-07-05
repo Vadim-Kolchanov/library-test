@@ -4,10 +4,10 @@
 
 ## Инструкция по запуску
 
-1) Создать базу данных [init-database.sql](/src/data-etl/init-database.sql)
+1) Создать базу данных [init-database.sql](/backend/src/data-etl/init-database.sql)
 2) Произвести миграцию БД `mvn clean flyway:migrate` (подключение описывается в [pom.xml](/pom.xml))
 3) Выполнить команду `mvn clean install`
-4) Воспроизвести запуск приложения [ItResourceApplication](/src/main/java/ru/itresource/ItResourceApplication.java)
+4) Воспроизвести запуск приложения [ItResourceApplication](/backend/src/main/java/ru/itresource/ItResourceApplication.java)
 
 ## Используемые технологии
 | Решаемая задача                     | Технология              |
