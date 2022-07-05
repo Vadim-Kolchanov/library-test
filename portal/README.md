@@ -1,11 +1,17 @@
-# Library App
+# Модуль Portal
 
-This project was created to perform a test task. It is frontend part
+Модуль представлющий из себя веб-интерфейс для взаимодействия с книгами в библиотеке
 
-## Available Scripts
+## Инструкция по запуску
 
-In the project directory, you can run:
+1) Выполнить команду `npm install` для установки зависимостей
+2) Для локального запуска `npm start`
 
-### `npm start` - for start project
-
-### `npm run build` - for build project
+## Используемые технологии
+| Решаемая задача                         | Технология              |
+|-----------------------------------------|-------------------------|
+| Язык программирования                   | ECMAScript (JavaScript) |
+| Разработка пользовательского интерфейса | React                   |
+| Управление состоянием приложения        | Redux                   |
+| Взаимодействие с REST-сервисами         | Axios                   |
+| Работа с датой и временем               | Moment.js               |
