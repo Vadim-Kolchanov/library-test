@@ -24,7 +24,7 @@ const initialStateFields = book => ({
     author: book.author
 });
 
-export const Editor = ({rowNumber, book, addBookActions, setEdit}) => {
+export const Editor = ({number, book, addBookActions, setEdit}) => {
     const {authors, saveBook} = useContext(LibraryContext);
     const [fields, setFields] = useState(initialStateFields(book));
 
@@ -44,7 +44,7 @@ export const Editor = ({rowNumber, book, addBookActions, setEdit}) => {
 
     return (
         <tr>
-            <th scope="row">{rowNumber}</th>
+            <th scope="row">{number}</th>
             <td>
                 <input type="text" value={fields.name} onChange={event => updateFields({name: event.target.value})}/>
             </td>

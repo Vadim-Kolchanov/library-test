@@ -46,7 +46,7 @@ export const Table = ({catalog}) => {
             <table className="table table-striped">
                 <thead>
                 <tr>
-                    {HEADERS.map((name, i) => <th scope="col" key={name + i}>name</th>)}
+                    {HEADERS.map((name, i) => <th scope="col" key={name + i}>{name}</th>)}
                 </tr>
                 </thead>
                 <tbody>
