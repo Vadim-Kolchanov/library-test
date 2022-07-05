@@ -4,14 +4,14 @@ import CatalogModel from "./catalog-model";
 
 export default class BookModel extends AbstractModel {
 
-    private readonly releaseDate: bigint
-    private readonly author: AuthorModel
-    private readonly catalog: CatalogModel
+    public readonly releaseDate: number
+    public readonly author: AuthorModel
+    public readonly catalog: CatalogModel
 
-    private readonly isNewBook: boolean
-    private readonly isDeleted: boolean
+    public readonly isNewBook: boolean
+    public readonly isDeleted: boolean
 
-    constructor(id: number, name: string, releaseDate: bigint, author: AuthorModel, catalog: CatalogModel, isNewBook: boolean = false, isDeleted: boolean = false) {
+    constructor(id: number, name: string, releaseDate: number, author: AuthorModel, catalog: CatalogModel, isNewBook: boolean = false, isDeleted: boolean = false) {
         super(id, name);
 
         this.releaseDate = releaseDate;
@@ -19,5 +19,16 @@ export default class BookModel extends AbstractModel {
         this.catalog = catalog;
         this.isNewBook = isNewBook;
         this.isDeleted = isDeleted;
+    }
+
+    static newBook(catalog, releaseDate): BookModel {
+        return new BookModel(
+            0,
+            'Название книги',
+            releaseDate,
+            new AuthorModel(-1, 'Неизвестный автор'),
+            CatalogModel.fromObject(catalog),
+            true
+        );
     }
 }

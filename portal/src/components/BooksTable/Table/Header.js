@@ -3,23 +3,11 @@ import LinksType from "../../../enums/links-type";
 import {Button} from "react-bootstrap";
 import React from "react";
 import BookModel from "../../../models/book-model";
-import moment from "moment";
-import AuthorModel from "../../../models/author-model";
-import CatalogModel from "../../../models/catalog-model";
+import moment from "moment/moment";
 
 const onAddBook = (catalog, addNewBook, setIsAdding) => {
     setIsAdding(true);
-
-    const newBook = new BookModel(
-        0,
-        'Название книги',
-        moment(),
-        new AuthorModel(-1, 'Неизвестный автор'),
-        CatalogModel.fromObject(catalog),
-        true
-    );
-
-    addNewBook(newBook);
+    addNewBook(BookModel.newBook(catalog, moment()));
 };
 
 export const Header = ({catalog, isAdding, setIsAdding, addNewBook}) => (

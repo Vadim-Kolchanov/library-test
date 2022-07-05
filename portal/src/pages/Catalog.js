@@ -31,7 +31,9 @@ export const Catalog = () => {
     }, [id]);
 
     if (id) {
-        return <BooksTable catalogId={id}/>;
+        const catalog = catalogs.find(it => it.id.toString() === id)
+
+        return catalog ? <BooksTable catalog={catalog}/> : <h1 className="text-center">Каталог не найден!</h1>;
     }
 
     return (

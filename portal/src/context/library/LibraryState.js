@@ -18,8 +18,6 @@ export const LibraryState = ({children}) => {
 
     const [state, dispatch] = useReducer(LibraryReducer, initialState);
 
-    const {loading, catalogs, books, authors, pageable} = state;
-
     /**
      * Получить список каталогов
      */
@@ -125,6 +123,8 @@ export const LibraryState = ({children}) => {
      * Отменить создание новой книги
      */
     const undoBookCreation = book => dispatch({type: ActionType.DELETE_BOOK, payload: book});
+
+    const {loading, catalogs, books, authors, pageable} = state;
 
     return (
         <LibraryContext.Provider value={{

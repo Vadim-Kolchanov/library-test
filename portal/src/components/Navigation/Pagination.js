@@ -29,6 +29,7 @@ export const Pagination = ({page, totalPages, totalElements, limit, setPage, set
             <div className="pagination-info">
                 <label>Всего: {totalElements} | Страница: {page + 1} из {totalPages}</label>
             </div>
+
             <nav aria-label="Переключение страниц">
                 <ul className="pagination pagination-lg mb-0">
                     <li className={'page-item ' + checkFirstPage(page)}>
@@ -39,6 +40,7 @@ export const Pagination = ({page, totalPages, totalElements, limit, setPage, set
                     </li>
                 </ul>
             </nav>
+
             <div className="pagination-limit">
                 <label>Показывать по</label>
                 <input type="number"

@@ -1,7 +1,7 @@
 
 abstract class AbstractModel {
-    id: number
-    name: string
+    public id: number
+    public name: string
 
     protected constructor(id: number, name: string) {
         this.id = id;

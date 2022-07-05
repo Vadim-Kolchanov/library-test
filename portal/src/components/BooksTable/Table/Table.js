@@ -1,35 +1,36 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useContext, useState} from "react";
 import {Row} from "./Row";
 import {Pagination} from "../../Navigation/Pagination";
 import {Header} from "./Header";
+import {LibraryContext} from "../../../context/library/LibraryContext";
 
-export const Table = ({catalog, books, actionsConfig}) => {
+const HEADERS = ['#', 'Название книги', 'Автор', 'Дата выпуска', ''];
+
+export const Table = ({catalog}) => {
+    const {undoBookCreation, getBooks, pageable, books, addNewBook, setPage, setLimit} = useContext(LibraryContext);
     const [isAdding, setIsAdding] = useState(false);
 
     const addBookActions = {
         onUndoBookCreation: book => {
-            actionsConfig.undoBookCreation(book);
+            undoBookCreation(book);
             setIsAdding(false);
         },
         onSaveCreatedBook: () => {
-            if (books.length > actionsConfig.pageable.limit) {
-                actionsConfig.getBooks(catalog.id, actionsConfig.pageable);
+            if (books.length > pageable.limit) {
+                getBooks(catalog.id, pageable);
                 return;
             }
             setIsAdding(false);
         }
     };
 
-    const header = <Header catalog={catalog} isAdding={isAdding} setIsAdding={setIsAdding}
-                           addNewBook={actionsConfig.addNewBook}/>;
+    const header = <Header {...{catalog, isAdding, setIsAdding, addNewBook}}/>;
 
     if (books.length === 0) {
-        if (actionsConfig.pageable.totalPages > 1) {
-            const currentPage = actionsConfig.pageable.page;
-            actionsConfig.getBooks(catalog.id, {
-                ...actionsConfig.pageable,
-                page: currentPage === 0 ? currentPage : actionsConfig.pageable.page - 1
-            });
+        if (pageable.totalPages > 1) {
+            const currentPage = pageable.page;
+
+            getBooks(catalog.id, {...pageable, page: currentPage === 0 ? currentPage : currentPage - 1});
             return;
         }
 
@@ -45,22 +46,14 @@ export const Table = ({catalog, books, actionsConfig}) => {
             <table className="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Название книги</th>
-                    <th scope="col">Автор</th>
-                    <th scope="col">Дата выпуска</th>
-                    <th scope="col"></th>
+                    {HEADERS.map((name, i) => <th scope="col" key={name + i}>name</th>)}
                 </tr>
                 </thead>
                 <tbody>
-                {books.map((book, index) => <Row key={book.id}
-                                                 book={book}
-                                                 number={index + 1}
-                                                 actionsConfig={actionsConfig}
-                                                 addBookActions={addBookActions}/>)}
+                {books.map((book, index) => <Row key={book.id} number={index + 1} {...{book, addBookActions}}/>)}
                 </tbody>
             </table>
-            <Pagination {...actionsConfig.pageable} setPage={actionsConfig.setPage} setLimit={actionsConfig.setLimit}/>
+            <Pagination {...{...pageable, setPage, setLimit}}/>
         </Fragment>
     );
 };

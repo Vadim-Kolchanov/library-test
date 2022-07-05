@@ -1,18 +1,23 @@
 import {DropdownCatalog} from "../Dropdown/DropdownCatalog";
-import React from "react";
+import React, {useContext} from "react";
+import {LibraryContext} from "../../../context/library/LibraryContext";
 
-export const Actions = ({book, setEdit, config}) => {
-    return (<>
-        <i onClick={() => setEdit(true)}
-           className="bi bi-pencil-fill" role="button"
-           title="Редактировать"/>
+export const Actions = ({book, setEdit}) => {
+    const {deleteBook, catalogs, changeCatalog} = useContext(LibraryContext);
 
-        <i onClick={() => config.deleteBook(book)}
-           className="bi bi-trash" role="button"
-           title="Удалить"/>
+    return (
+        <div className="d-flex align-items-center justify-content-around">
+            <i onClick={() => setEdit(true)}
+               className="bi bi-pencil-fill" role="button"
+               title="Редактировать"/>
 
-        <DropdownCatalog catalogs={config.catalogs}
-                         onSelect={eventKey => config.changeCatalog(book, eventKey)}
-        />
-    </>);
+            <i onClick={() => deleteBook(book)}
+               className="bi bi-trash" role="button"
+               title="Удалить"/>
+
+            <DropdownCatalog catalogs={catalogs.filter(it => it.id !== book.catalog.id)}
+                             onSelect={eventKey => changeCatalog(book, eventKey)}
+            />
+        </div>
+    );
 };
