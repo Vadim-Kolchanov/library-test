@@ -101,6 +101,13 @@
                         </exclude>
                     </excludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -139,6 +146,21 @@
 
                 <!-- Подключение к базе данных -->
                 <database.url>jdbc:postgresql://localhost:5432/test-task</database.url>
+                <database.user>postgres</database.user>
+                <database.password>admin</database.password>
+                <database.schema>library</database.schema>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>docker</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+
+                <spring.profiles.active>docker</spring.profiles.active>
+
+                <!-- Подключение к базе данных -->
+                <database.url>jdbc:postgresql://database:5432/test-task</database.url>
                 <database.user>postgres</database.user>
                 <database.password>admin</database.password>
                 <database.schema>library</database.schema>

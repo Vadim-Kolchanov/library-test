@@ -3,11 +3,12 @@ package ru.itresource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.core.env.Environment;
 
 @Slf4j
 @SpringBootApplication
-public class ItResourceApplication {
+public class ItResourceApplication extends SpringBootServletInitializer {
 
     public static final String LOCAL_SERVER_PORT = "local.server.port";
 
