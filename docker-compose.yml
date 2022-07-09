@@ -2,12 +2,12 @@ version: '1.0'
 
 services:
   portal:
-    build: ./portal
+    image: kolchanovv/it-resource_portal
     ports:
       - 3000:3000
 
   backend:
-    build: ./backend
+    image: kolchanovv/it-resource_backend
     ports:
       - 8080:8080
     depends_on:
